@@ -34,7 +34,9 @@ public class ConvergenceChart extends View {
     private float reveal = 1f;
     private float scrub = -1f;
     private int backgroundColor = INK;
+    private Double theoryReference = 10.0;
     private ValueAnimator animator;
+    public void setTheoryReference(Double value) { theoryReference = value; invalidate(); }
 
     public ConvergenceChart(Context ctx) { super(ctx); setLayerType(View.LAYER_TYPE_SOFTWARE, null); }
     public ConvergenceChart(Context ctx, AttributeSet attrs) { super(ctx, attrs); setLayerType(View.LAYER_TYPE_SOFTWARE, null); }
@@ -79,23 +81,27 @@ public class ConvergenceChart extends View {
         double min=Double.POSITIVE_INFINITY,max=Double.NEGATIVE_INFINITY;
         for(Point p: points) if(Double.isFinite(p.mean)) {min=Math.min(min,p.mean);max=Math.max(max,p.mean);}
         if(!Double.isFinite(min)) return;
-        if(max<10.0) max=10.0;
-        if(min>10.0) min=10.0;
+        if(theoryReference != null && Double.isFinite(theoryReference)) {
+            if(max<theoryReference) max=theoryReference;
+            if(min>theoryReference) min=theoryReference;
+        }
         double expand=Math.max(.8, (max-min)*.12);
         max+=expand;min=Math.max(0,min-expand);
         double span=Math.max(.0001,max-min), nEnd=points.get(points.size()-1).n;
         double nStart=points.get(0).n;
-        float y10=(float)(b-(10-min)/span*(b-t));
+        float yRef=theoryReference == null ? -100 : (float)(b-(theoryReference-min)/span*(b-t));
         for(int i=0;i<=4;i++) {
             float y=t+i*(b-t)/4;
             paint.reset(); paint.setAntiAlias(true);paint.setColor(Color.argb(38,217,226,255)); paint.setStrokeWidth(.8f*density);
             canvas.drawLine(l,y,r,y,paint);
             label(canvas,format(max-span*i/4),8*density,y+3*density,9*density,0xFF91A1BF,false);
         }
-        paint.reset();paint.setAntiAlias(true);paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(CORAL); paint.setStrokeWidth(1.15f*density);
-        paint.setPathEffect(new DashPathEffect(new float[]{4*density,5*density},0));
-        canvas.drawLine(l,y10,r,y10,paint);paint.setPathEffect(null);
+        if(theoryReference != null && Double.isFinite(theoryReference)) {
+            paint.reset();paint.setAntiAlias(true);paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(CORAL); paint.setStrokeWidth(1.15f*density);
+            paint.setPathEffect(new DashPathEffect(new float[]{4*density,5*density},0));
+            canvas.drawLine(l,yRef,r,yRef,paint);paint.setPathEffect(null);
+        }
         float prevX=0,prevY=0; boolean first=true;
         Path trace=new Path(); Path fill=new Path();
         int visible=(int)Math.max(1,Math.ceil(points.size()*reveal));
