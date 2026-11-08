@@ -128,7 +128,7 @@ public final class InsightChart extends View {
         label(c,"更深的蓝色代表更靠后的首次出现位置",l,b+dp(19),MUTE,9,false);
         if(selected>=0&&selected<Math.min(96,length)){
             int hist=length-Math.min(96,length)+selected;
-            label(c,"第 "+(hist+1)+" 格 · 首现位置 "+compact((long)hits.get(hist)),l,t-dp(10),INK,11,true);
+            label(c,"第 "+(hist+1)+" 格 · 首现位置 "+compact(hits.get(hist).longValue()),l,t-dp(10),INK,11,true);
         }else label(c,"最近 "+Math.min(96,length)+" 条记录 · 点按查看",l,t-dp(10),INK,11,true);
     }
     @Override public boolean onTouchEvent(MotionEvent e){
