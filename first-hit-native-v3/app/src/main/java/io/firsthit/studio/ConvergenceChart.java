@@ -38,8 +38,8 @@ public class ConvergenceChart extends View {
     private ValueAnimator animator;
     public void setTheoryReference(Double value) { theoryReference = value; invalidate(); }
 
-    public ConvergenceChart(Context ctx) { super(ctx); setLayerType(View.LAYER_TYPE_SOFTWARE, null); }
-    public ConvergenceChart(Context ctx, AttributeSet attrs) { super(ctx, attrs); setLayerType(View.LAYER_TYPE_SOFTWARE, null); }
+    public ConvergenceChart(Context ctx) { super(ctx); }
+    public ConvergenceChart(Context ctx, AttributeSet attrs) { super(ctx, attrs); }
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
