@@ -66,6 +66,7 @@ public class MainActivity extends Activity {
     private Button runButton, pauseButton, stopButton, exportButton;
     private ProgressBar progressBar;
     private LinearLayout recentContainer;
+    private TextView chartLegend;
     private ScrollView scrollView;
     private volatile FirstHitEngine.Signal currentSignal;
     private volatile boolean running=false, finished=false;
@@ -208,7 +209,7 @@ public class MainActivity extends Activity {
         TextView chartMark=badge("16 : 10",COBALT,0xFFDFE4FF);chartHeader.addView(chartMark);
         root.addView(chartHeader);gap(root,13);
         fullChart=new ConvergenceChart(this);root.addView(fullChart,lp(-1,-2));gap(root,7);
-        TextView chartLegend=t("蓝色 · 实际累计平均值     橘色 · 随机模型期望 10",11,MUTED,false);root.addView(chartLegend);
+        chartLegend=t("蓝色 · 实际累计平均值     橘色 · 随机模型期望 10",11,MUTED,false);root.addView(chartLegend);
         gap(root,25);
         root.addView(cap("04 / DETAIL VIEW"));gap(root,9);
         root.addView(serif("近期波动 · 放大",25,INK));gap(root,12);
@@ -293,6 +294,13 @@ public class MainActivity extends Activity {
         csvSum=BigInteger.ZERO;totalSum=BigInteger.ZERO;totalDone=BigInteger.ZERO;targetCount=spec.sampleCount;
         chartStep=1;chartData.clear();recentData.clear();recentRows.clear();renderRecent();
         fullChart.setPoints(chartData,false);zoomChart.setPoints(chartData,false);
+        if(spec.target.length()==1) {
+            double expected=spec.occurrence.doubleValue()*10.0;
+            if(Double.isFinite(expected)){fullChart.setTheoryReference(expected);zoomChart.setTheoryReference(expected);
+                chartLegend.setText("蓝色 · 实际累计平均值     橘色 · 独立随机模型期望 "+number(spec.occurrence.multiply(BigInteger.TEN)));}
+            else {fullChart.setTheoryReference(null);zoomChart.setTheoryReference(null);chartLegend.setText("蓝色 · 实际累计平均值；目标次数过大，不显示理论参考线");}
+        } else {fullChart.setTheoryReference(null);zoomChart.setTheoryReference(null);
+            chartLegend.setText("蓝色 · 实际累计平均值；多位数字串的理论等待时间受重叠结构影响");}
         currentSignal=new FirstHitEngine.Signal();running=true;finished=false;runStarted=System.currentTimeMillis();
         meanValue.setText("—");countValue.setText("0 / "+number(targetCount));sumValue.setText("0");
         progressBar.setProgress(0);progressText.setText("0%");statusText.setText("正在分配原生计算线程");
