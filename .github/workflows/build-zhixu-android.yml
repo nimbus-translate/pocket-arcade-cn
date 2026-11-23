@@ -40,11 +40,31 @@ jobs:
         run: |
           npx cap add android
           npx cap sync android
+      - name: Set native Android version to 1.1
+        working-directory: zhixu-native
+        run: |
+          python3 - <<'PYFIX'
+          from pathlib import Path
+          import re
+          p = Path('android/app/build.gradle')
+          s = p.read_text(encoding='utf-8')
+          s, codes = re.subn(r'\bversionCode\s+\d+', 'versionCode 11', s, count=1)
+          s, names = re.subn(r'\bversionName\s+["\'][^"\']+["\']', 'versionName "1.1"', s, count=1)
+          if codes != 1 or names != 1:
+              raise SystemExit(f'Unable to update Android version: code={codes} name={names}')
+          p.write_text(s, encoding='utf-8')
+          print('Android versionCode=11 versionName=1.1')
+          PYFIX
       - name: Build installable Android APK
         working-directory: zhixu-native/android
         run: |
           chmod +x gradlew
           ./gradlew :app:assembleDebug --no-daemon --stacktrace
+      - name: Verify APK Android version metadata
+        run: |
+          APK='zhixu-native/android/app/build/outputs/apk/debug/app-debug.apk'
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging "$APK" | tee /tmp/zhixu-apk-badging.txt
+          grep -E "^package: .*versionCode='11' versionName='1.1'" /tmp/zhixu-apk-badging.txt
       - name: Upload Android APK archive
         uses: actions/upload-artifact@v4
         with:
