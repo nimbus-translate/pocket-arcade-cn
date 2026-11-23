@@ -13,6 +13,7 @@
   <link rel="apple-touch-icon" href="assets/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="motion.css" />
+  <link rel="stylesheet" href="mobile-v3.css" />
   <title>枝序 · Mindspace</title>
 </head>
 <body>
@@ -55,14 +56,14 @@
         <div class="canvas-header">
           <div class="eyebrow">A SPACE TO THINK</div>
           <div class="canvas-title-row"><h1 id="canvas-title">我的思维导图</h1><span class="small-accent-line"></span><span class="node-counter" id="node-count">07 个节点</span></div>
-          <p class="canvas-description">轻触节点进行编辑，拖动节点整理思路。</p>
+          <p class="canvas-description">点选节点，轻点两次编辑；拖动节点整理思路。</p>
         </div>
         <div class="board" id="board" aria-label="思维导图画布">
           <div class="canvas-content" id="canvas-content">
             <svg id="connectors" class="connectors" viewBox="-5000 -5000 10000 10000" xmlns="http://www.w3.org/2000/svg"></svg>
             <div id="nodes-layer"></div>
           </div>
-          <div class="canvas-hint" id="canvas-hint"><span data-icon="mouse-pointer"></span> 空白处拖动以移动画布 · 双指缩放</div>
+          <div class="canvas-hint" id="canvas-hint"><span data-icon="mouse-pointer"></span> 拖动空白移动画布 · 双指缩放</div>
           <div class="float-tools" id="float-tools">
             <button title="新建子节点" id="add-child-btn"><span data-icon="plus"></span><span>子节点</span></button>
             <span class="tool-divider"></span>

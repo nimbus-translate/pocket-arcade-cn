@@ -1,0 +1,106 @@
+/* 枝序 Mobile v3 — true edge-to-edge, thumb-first editing. */
+:root{--mobile-dock-height:78px;--mobile-edge:14px}
+@media(max-width:780px){
+  html,body,#app{width:100%;height:100%;height:100dvh;min-width:0;overscroll-behavior:none}
+  body{font-size:14px;touch-action:manipulation}
+  .workspace{min-width:0;overflow:hidden}
+  .topbar{--topbar:58px;height:calc(58px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 13px 0!important;gap:5px;box-shadow:0 2px 14px rgba(42,65,51,.022);border-bottom-color:#ecefeb}
+  .topbar-left{flex:1;min-width:0;gap:7px}
+  #menu-btn{width:42px;height:42px;flex:0 0 42px;border-radius:11px}
+  .title-button{flex:1;min-width:0;max-width:none!important;min-height:43px;padding:0 3px 0 0;gap:5px;font-size:14px!important;letter-spacing:-.2px;font-weight:680}
+  .title-button span:first-child{min-width:0}
+  .title-button svg{width:12px;height:12px}
+  .topbar-right{gap:2px;flex:0 0 auto}
+  .topbar-right .icon-btn{display:inline-flex!important;width:39px;height:43px;justify-content:center;border-radius:11px;color:#68776e}
+  #redo-btn{display:none!important}
+  #search-btn{display:inline-flex!important}
+  #undo-btn:disabled{opacity:.28}
+  .export-btn{min-width:43px;width:43px;height:43px;margin:0 0 0 3px;padding:0!important;border-radius:12px;display:grid;place-items:center;box-shadow:0 3px 9px rgba(24,53,33,.1)}
+  .export-btn svg{width:19px;height:19px}
+  .board-frame{min-height:0;flex:1}
+  .board{background-color:#fafbf8;background-size:24px 24px;background-image:radial-gradient(circle,rgba(190,202,187,.48) .85px,transparent 1px);background-position:10px 8px}
+  .board:before{background:radial-gradient(ellipse at 48% 46%,rgba(239,246,237,.68),transparent 71%);opacity:.65}
+  /* Remove the duplicated three-line desktop heading. Keep a small node-count chip. */
+  .canvas-header{left:14px;top:16px;max-width:unset!important;pointer-events:none;animation:none!important}
+  .eyebrow,.small-accent-line,.canvas-description,.canvas-title-row h1{display:none!important}
+  .canvas-title-row{height:40px;margin:0;padding:0 13px;display:flex;gap:0;align-items:center;background:rgba(255,255,255,.87);border:1px solid rgba(225,232,224,.86);border-radius:14px;box-shadow:0 5px 20px rgba(38,58,45,.045);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .node-counter{font-size:11px;color:#60796a;font-weight:670;white-space:nowrap;letter-spacing:.15px}
+  .node-counter:before{content:'●';font-size:8px;color:#80a18c;margin-right:8px;vertical-align:1px}
+  .zoom-control{animation:none!important;position:absolute;right:14px;left:auto;top:16px;bottom:auto;transform:none!important;display:flex;align-items:center;gap:0;padding:3px;height:40px;border-radius:14px;background:rgba(255,255,255,.91);border:1px solid #e6ece5;box-shadow:0 5px 20px rgba(39,63,45,.055);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:5}
+  .zoom-control button{display:grid;place-items:center;min-width:34px;width:34px;height:33px;padding:0;border-radius:9px}
+  .zoom-control button svg{width:16px;height:16px}
+  .zoom-control button:active{background:#eaf0e9}
+  .zoom-control #zoom-label{min-width:41px;font-size:10px;text-align:center;color:#61736a;font-variant-numeric:tabular-nums}
+  .zoom-control .zoom-divider{height:20px;margin:0 3px;background:#e6ebe5}
+  /* The v2 transform animation replaced translateX(-50%), shifting the dock offscreen. */
+  .float-tools{animation:none!important;transform:translateX(-50%)!important;left:50%!important;right:auto!important;bottom:calc(13px + env(safe-area-inset-bottom,0px));width:calc(100% - 26px);max-width:480px;min-height:76px;padding:7px!important;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;border:1px solid #e6ebe5;border-radius:21px;background:rgba(255,255,255,.975);box-shadow:0 16px 42px rgba(35,58,41,.14),0 2px 8px rgba(32,50,36,.05);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:7}
+  .float-tools .tool-divider{display:none!important}
+  .float-tools button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px!important;width:100%;min-width:0;min-height:62px;padding:6px 2px!important;border-radius:15px;color:#52645a;font-size:11px!important;font-weight:620;letter-spacing:0;white-space:nowrap;touch-action:manipulation}
+  .float-tools button svg{width:20px;height:20px;stroke-width:1.85}
+  .float-tools #add-child-btn{background:#294539;color:#fff;box-shadow:0 4px 13px rgba(27,63,40,.15)}
+  .float-tools button:active{background:#eaf1e9;transform:scale(.94)}
+  .float-tools #add-child-btn:active{background:#476b56}
+  .canvas-hint{left:50%;transform:translateX(-50%);bottom:calc(108px + env(safe-area-inset-bottom,0px));max-width:calc(100% - 36px);padding:7px 11px;background:rgba(250,251,248,.83);border-radius:20px;white-space:nowrap;font-size:10px;line-height:1.35;color:#9aa69c;gap:6px;letter-spacing:0;justify-content:center;pointer-events:none;transition:opacity .25s}
+  .canvas-hint svg{width:13px;height:13px}
+  .board-bottom-left{display:none!important}
+  .node{border-radius:17px;box-shadow:0 9px 31px rgba(42,62,48,.11)}
+  .node.root{background:#294237}
+  .node.selected{box-shadow:0 0 0 4px rgba(122,163,139,.18),0 14px 32px rgba(36,57,41,.13)}
+  .node.root.selected{box-shadow:0 0 0 4px rgba(114,156,130,.26),0 16px 36px rgba(39,59,43,.22)}
+  .node .node-title{font-size:15px}
+  .node.root .node-title{font-size:19px}
+  .node .node-note{font-size:11px}
+  .collapse-node{width:32px;height:32px;right:-16px;font-size:19px;touch-action:manipulation}
+  .node.has-left>.collapse-node{left:-16px}
+  .collapse-node:after{content:'';position:absolute;inset:-7px;border-radius:50%}
+  .node.is-dragging{box-shadow:0 20px 48px rgba(31,58,40,.24),0 0 0 5px rgba(132,169,145,.2)!important}
+  /* An editable sheet rather than a panel that obscures the whole map. */
+  .inspector{height:min(80dvh,760px);height:min(calc(var(--viewport-height,100dvh) * .8),760px);max-height:calc(var(--viewport-height,100dvh) - 26px);border-radius:25px 25px 0 0;background:#fff;box-shadow:0 -17px 70px rgba(25,43,32,.18)}
+  .inspector-head{padding:24px 23px 17px;min-height:87px}
+  .inspector-eyebrow{font-size:9px;letter-spacing:2px;margin-bottom:6px}
+  .inspector-head h2{font-size:19px}
+  #close-inspector{width:43px;height:43px;background:#f6f8f5;border-radius:12px}
+  .inspector-scroll{padding:19px 22px 34px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .field-block{margin-bottom:25px}
+  .field-block>label{font-size:13px;margin-bottom:11px}
+  .editor-input,.editor-textarea{font-size:16px!important;min-height:51px;padding:13px 15px;border-radius:12px}
+  .editor-textarea{min-height:136px}
+  .inspector-actions button{min-height:73px;font-size:12px;border-radius:13px}
+  .swatch{width:37px;height:37px}
+  .inspector-foot{padding:11px 22px calc(12px + env(safe-area-inset-bottom,0px));min-height:65px;background:white}
+  .inspector-foot>span{font-size:10px}
+  .delete-btn{min-height:44px;padding:0 8px;font-size:12px}
+  .sidebar{padding-bottom:env(safe-area-inset-bottom,0px)}
+  .brand-area{height:84px}
+  .doc-item{min-height:58px}
+  .doc-more{opacity:1}
+  #toast{bottom:calc(111px + env(safe-area-inset-bottom,0px));padding:12px 15px;border-radius:12px;font-size:12px;white-space:normal;max-width:calc(100vw - 36px)}
+  .modal-backdrop{align-items:center;padding:20px 17px;overscroll-behavior:contain}
+  .modal{max-width:430px;max-height:calc(100dvh - 60px);overflow:auto;padding:23px;border-radius:20px}
+  .modal h3{font-size:20px}
+  .modal p{font-size:13px}
+  .modal-buttons button,.modal-choice{min-height:46px;font-size:13px}
+  .keyboard-open .float-tools,.keyboard-open .canvas-hint{opacity:0!important;pointer-events:none!important}
+  .keyboard-open .zoom-control{opacity:.25;pointer-events:none}
+}
+@media(max-width:360px){
+  .topbar{padding-left:9px!important;padding-right:9px!important}
+  .topbar-right .icon-btn{width:36px}
+  .export-btn{width:40px;min-width:40px}
+  .canvas-header{left:10px}
+  .zoom-control{right:9px}
+  .zoom-control button{min-width:31px;width:31px}
+  .zoom-control #zoom-label{min-width:35px}
+  .float-tools{width:calc(100% - 16px)}
+  .float-tools button{font-size:10px!important}
+}
+@media(max-height:580px) and (max-width:780px){
+  .canvas-hint{display:none!important}
+  .inspector{height:min(92dvh,700px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .float-tools,.zoom-control{animation:none!important}
+}
+@media(min-width:390px) and (max-width:780px){
+  #redo-btn{display:inline-flex!important}
+}
