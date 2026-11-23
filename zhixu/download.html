@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f8f8f5" />
+  <meta name="description" content="枝序 Mindspace — 一款克制而自由的思维导图应用。直接打开、安装到手机桌面，支持离线保存与图片节点。" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="枝序" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./assets/icon-192.png" />
+  <link rel="stylesheet" href="./download.css" />
+  <title>下载枝序 · Mindspace — 让想法自由生长</title>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header"><a class="brand" href="./download.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M10 20H21M21 20L30 11M21 20L30 29"/><circle cx="10" cy="20" r="3"/><circle cx="30" cy="11" r="3"/><circle cx="30" cy="29" r="3"/></svg></span><span>枝序 <small>MINDSPACE</small></span></a><a class="header-link" href="./index.html">进入工作空间 <span aria-hidden="true">↗</span></a></header>
+    <main>
+      <section class="hero"><div class="hero-text"><div class="eyebrow"><span class="eyebrow-line"></span> YOUR IDEAS, IN THEIR OWN RHYTHM</div><p class="version">MINDSPACE · EDITION 02</p><h1>让想法，<br><em>自然生长。</em></h1><p class="hero-desc">一张自由的画布，一个安静的空间。记录灵感、连接思路、插入图片，让每个念头都找到自己的位置。</p><div class="action-row"><a class="primary-action" href="./Zhixu-Mindspace-Android.apk" download><span>下载 Android APK</span><span class="arrow">↓</span></a><button class="secondary-action" type="button" id="install-button"><span id="install-label">添加到主屏幕</span></button><a class="secondary-action" href="./index.html">在线使用 <span aria-hidden="true">→</span></a></div><div class="install-feedback" id="install-feedback" aria-live="polite">Android 安装包 · 免费下载 · 支持离线使用</div></div>
+       <div class="preview"><div class="preview-frame"><div class="preview-label">01 / THE CANVAS EXPERIENCE <span>↗</span></div><img src="./assets/preview.webp" alt="枝序的思维导图应用界面，深绿色中心节点与柔和分支连接" loading="eager"/><div class="preview-bottom"><span class="dot"></span> FOCUS ON YOUR THOUGHTS <span>LOCAL FIRST</span></div></div><span class="preview-orbit orbit-one"></span><span class="preview-orbit orbit-two"></span></div></section>
+      <section class="features" aria-label="应用特点"><div class="feature"><span class="number">01</span><div><h3>自由构建</h3><p>创建节点、调整分支、拖拽排布，支持双指缩放与收起展开。</p></div></div><div class="feature"><span class="number">02</span><div><h3>图文共生</h3><p>文字与图片共同记录。提供笔记、配色、搜索与撤销重做。</p></div></div><div class="feature"><span class="number">03</span><div><h3>只属于你</h3><p>数据保存在当前设备，无需账号。可导出完整 JSON 备份。</p></div></div></section>
+      <section class="installation" id="how-to-install"><div class="section-eyebrow">INSTALL IN SECONDS</div><h2>真正安装，随时开始。</h2><p class="install-subtitle">Android 手机可点击上方按钮下载 APK 安装包；也可以通过浏览器添加网页版到桌面。iPhone 使用 Safari 的「添加到主屏幕」。</p><div class="steps"><div class="step"><div class="step-head"><span>ANDROID</span><span>01</span></div><strong>Android 手机</strong><p>点击上方「下载 Android APK」，下载后在手机的下载文件中打开并安装。安装包由本项目自动构建；请只安装你信任来源的应用。</p></div><div class="step"><div class="step-head"><span>iOS / iPadOS</span><span>02</span></div><strong>iPhone · iPad</strong><p>用 Safari 打开本站，点击「分享」按钮，选择「添加到主屏幕」，再点击「添加」。完成后从桌面图标启动。</p></div></div><div class="notice"><strong>关于数据</strong><span>导图与图片保存在本设备中。卸载应用、清除数据或者更换设备可能丢失内容。建议定期进入导图页导出 JSON 备份。</span></div></section>
+    </main><footer><span>枝序 · MINDSPACE</span><span>让复杂归于清晰。 · © 2026</span></footer>
+  </div>
+  <script>
+    let deferredInstall=null;
+    const button=document.getElementById('install-button');
+    const label=document.getElementById('install-label');
+    const feedback=document.getElementById('install-feedback');
+    const installed=()=>window.matchMedia('(display-mode:standalone)').matches||navigator.standalone===true;
+    if(installed()){label.textContent='已安装 · 打开应用';}
+    window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstall=event;label.textContent='一键安装到手机';feedback.textContent='浏览器已就绪 · 点击按钮开始安装';});
+    window.addEventListener('appinstalled',()=>{deferredInstall=null;label.textContent='安装成功 · 打开应用';feedback.textContent='已安装到设备主屏幕';});
+    button.addEventListener('click',async()=>{
+      if(installed()){location.href='./index.html';return;}
+      if(deferredInstall){const prompt=deferredInstall;deferredInstall=null;prompt.prompt();try{const result=await prompt.userChoice;feedback.textContent=result?.outcome==='accepted'?'安装已确认，请查看手机桌面':'你可以稍后从浏览器菜单安装';}catch{}return;}
+      const isiOS=/iPhone|iPad|iPod/.test(navigator.userAgent);
+      feedback.textContent=isiOS?'请点击 Safari 分享按钮 → 添加到主屏幕':'请打开浏览器菜单 → 安装应用 / 添加到主屏幕';
+      document.getElementById('how-to-install').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+    });
+    if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  </script>
+</body>
+</html>

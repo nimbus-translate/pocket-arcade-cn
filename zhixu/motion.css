@@ -1,0 +1,58 @@
+/* Motion & interaction polish. Animation never changes user content. */
+:root{--ease-calm:cubic-bezier(.2,.72,.17,1);--ease-spring:cubic-bezier(.2,1.18,.24,1);--motion-fast:180ms;--motion-med:330ms;--motion-slow:540ms}
+@keyframes gentle-rise{from{opacity:0;transform:translate3d(0,11px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes modal-arrive{from{opacity:0;transform:translate3d(0,18px,0) scale(.974);filter:blur(2px)}to{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0)}}
+@keyframes backdrop-arrive{from{opacity:0}to{opacity:1}}
+@keyframes settle-pulse{0%,100%{opacity:1}50%{opacity:.48}}
+@keyframes ambient-in{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
+body{scroll-behavior:smooth}
+.board:before{content:"";pointer-events:none;position:absolute;inset:0;background:radial-gradient(ellipse at 45% 43%,rgba(230,239,228,.3),transparent 66%);opacity:.9;animation:ambient-in 1s var(--ease-calm) both}
+.canvas-header{animation:gentle-rise .68s .10s var(--ease-calm) both}
+.node{backface-visibility:hidden;transform-origin:center;transition:border-color var(--motion-fast) ease, box-shadow var(--motion-med) var(--ease-calm),background-color var(--motion-fast) ease;contain:layout style}
+.node.selected{transition:box-shadow var(--motion-med) var(--ease-calm),border-color var(--motion-fast) ease}
+.node.is-dragging{z-index:8;cursor:grabbing;box-shadow:0 26px 65px rgba(36,64,44,.22),0 0 0 4px rgba(145,174,154,.14)!important;transition:box-shadow .15s ease}
+.node-ghost{pointer-events:none!important;z-index:0!important;user-select:none}
+.node-ghost *{pointer-events:none!important}
+.node .node-marker{transition:transform .28s var(--ease-spring),background .2s}
+.node.selected .node-marker{transform:scale(1.24)}
+.collapse-node{transition:background .2s,box-shadow .25s,scale .22s var(--ease-spring)}
+.collapse-node:active{scale:.87}
+button{transition-property:background-color,color,box-shadow,transform,opacity;transition-duration:var(--motion-fast);transition-timing-function:var(--ease-calm)}
+button:active:not(:disabled){transform:scale(.965)}
+.float-tools,.zoom-control{transition:box-shadow var(--motion-med) var(--ease-calm);animation:gentle-rise .68s .22s var(--ease-calm) both}
+.float-tools:hover,.zoom-control:hover{box-shadow:0 15px 37px rgba(46,57,47,.13)}
+.new-map-btn:hover{transform:translateY(-1px);box-shadow:0 5px 17px rgba(48,78,53,.07)}
+.export-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(39,59,51,.15)}
+.doc-item{transition:background .22s var(--ease-calm),color .22s var(--ease-calm),transform .22s var(--ease-calm)}
+.doc-item.active .doc-icon{transition:background .26s ease,color .26s ease,transform .3s var(--ease-spring);transform:scale(1.04)}
+.doc-item:active{transform:scale(.985)}
+.sidebar,.inspector{transition-duration:.42s!important;transition-timing-function:var(--ease-calm)!important}
+.sidebar-scrim.show,.inspector-scrim.show{animation:backdrop-arrive .28s ease both}
+.modal-backdrop{animation:backdrop-arrive .24s ease both}
+.modal{animation:modal-arrive .39s var(--ease-spring) both;transform-origin:50% 60%}
+#toast{transition:opacity .25s var(--ease-calm),transform .38s var(--ease-spring)!important;border:1px solid rgba(255,255,255,.1)}
+.swatch{transition:scale .23s var(--ease-spring),outline-color .2s,box-shadow .2s}
+.swatch:hover{scale:1.08}
+.swatch.active{scale:1.08;box-shadow:0 4px 14px rgba(34,55,40,.16)}
+.editor-input,.editor-textarea{transition:box-shadow .25s var(--ease-calm),border-color .2s ease,background-color .2s ease}
+.editor-input:focus,.editor-textarea:focus{box-shadow:0 0 0 4px rgba(141,173,149,.13)}
+.image-wrap{transition:transform .28s var(--ease-spring),box-shadow .22s}
+.image-wrap:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(28,60,39,.12)}
+#save-label:has(+ *){transition:color .2s}
+.saved-dot{animation:settle-pulse 3s ease-in-out infinite}
+.install-app-btn{color:#446c53!important;font-weight:700!important;margin-top:2px;border-radius:9px;background:#f1f5ef!important;padding:12px 13px!important;width:100%;justify-content:flex-start}
+.install-app-btn:hover{background:#e4eee4!important}
+.install-app-btn .install-suffix{margin-left:auto;font-size:9px;color:#8ea595;letter-spacing:.1em}
+.install-app-btn svg{width:17px;height:17px}
+.install-app-btn.is-installed{color:#7b8e7c!important;background:#f7f8f4!important}
+@media(max-width:780px){
+ .sidebar,.inspector{transition-duration:.44s!important}
+ .inspector{box-shadow:0 -16px 54px rgba(31,53,37,.11)}
+ .inspector:before{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);width:38px;height:4px;border-radius:6px;background:#d8e1d9;pointer-events:none}
+ .float-tools{backdrop-filter:blur(12px);background:rgba(255,255,255,.96)}
+ .node:active{filter:brightness(.99)}
+ .modal{animation-duration:.36s}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation-duration:.01ms!important;animation-delay:0ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
