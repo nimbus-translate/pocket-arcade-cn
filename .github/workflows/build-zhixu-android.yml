@@ -32,6 +32,12 @@ jobs:
         run: |
           mkdir -p zhixu-native
           unzip -oq zhixu-build/source.zip -d zhixu-native
+      - name: Apply responsive mobile v3 update
+        run: |
+          base64 -d zhixu-build/mobile-v3.b64 | gzip -d > /tmp/zhixu-mobile-v3.patch
+          cd zhixu-native
+          patch -p1 --batch --forward < /tmp/zhixu-mobile-v3.patch
+          node --check www/app.js
       - name: Install Capacitor dependencies
         working-directory: zhixu-native
         run: npm install --no-audit --no-fund
