@@ -135,7 +135,7 @@
   function initialView(){const board=$id('board'),root=roots()[0];if(board?.clientWidth<781&&root){const scale=Math.min(1.04,(board.clientWidth-40)/ROOT_W);moveViewport(board.clientWidth/2-(root.x+ROOT_W/2)*scale,(board.clientHeight-25)*.48-(root.y+ROOT_H/2)*scale,scale,{animate:true,duration:540});}else fitView({animate:true});}
   function renderAll(){renderDocList();renderCanvas();updateHistoryButtons();if(state.showInspector)renderInspector();}
   function showSidebar(open){$id('sidebar').classList.toggle('open',open);$id('sidebar-scrim').classList.toggle('show',open);}
-  function openInspector(){if(!selectedNode())return;state.showInspector=true;state.lastTapAt=0;$id('inspector').classList.add('open');$id('inspector-scrim').classList.add('show');renderInspector();}
+  function openInspector(){if(!selectedNode())return;state.showInspector=true;state.lastTapAt=0;state.inspectorOpenedAt=Date.now();$id('inspector').classList.add('open');$id('inspector-scrim').classList.add('show');renderInspector();}
   function closeInspector(){state.showInspector=false;$id('inspector').classList.remove('open');$id('inspector-scrim').classList.remove('show');}
   function selectNode(id,{open=false}={}){state.selectedId=id;renderCanvas();if(open)openInspector();else if(state.showInspector)renderInspector();}
   function renderInspector(){const n=selectedNode();if(!n)return;$id('node-title-input').value=n.title||'';$id('node-note-input').value=n.note||'';$id('color-palette').innerHTML=COLORS.map(c=>`<button class="swatch ${n.color===c.id?'active':''}" title="${c.label}" aria-label="${c.label}" data-color="${c.id}" style="background:${c.value}">${n.color===c.id?icon('check',14):''}</button>`).join('');$id('image-list').innerHTML=(n.images||[]).map(im=>`<div class="image-wrap"><img src="${esc(im.data)}" alt="${esc(im.name||'图片')}" data-view-image="${esc(im.id)}"/><button class="remove-image" data-remove-image="${esc(im.id)}" aria-label="移除图片">×</button></div>`).join('');$id('editor-sibling-btn').disabled=!n.parentId;$id('delete-node-btn').disabled=!n.parentId;}
@@ -221,7 +221,7 @@
     $id('undo-btn').onclick=undo;$id('redo-btn').onclick=redo;$id('search-btn').onclick=searchModal;$id('export-btn').onclick=exportModal;
     $id('add-child-btn').onclick=addChild;$id('add-sibling-btn').onclick=addSibling;$id('edit-selected-btn').onclick=()=>openInspector();$id('add-image-btn').onclick=()=>$id('image-input').click();
     $id('zoom-in-btn').onclick=()=>adjustZoom(1.22);$id('zoom-out-btn').onclick=()=>adjustZoom(1/1.22);$id('fit-btn').onclick=()=>fitView();
-    $id('close-inspector').onclick=closeInspector;$id('inspector-scrim').onclick=closeInspector;
+    $id('close-inspector').onclick=closeInspector;$id('inspector-scrim').onclick=()=>{if(Date.now()-(state.inspectorOpenedAt||0)>350)closeInspector();};
     $id('editor-child-btn').onclick=addChild;$id('editor-sibling-btn').onclick=addSibling;$id('delete-node-btn').onclick=deleteSelected;$id('editor-image-btn').onclick=()=>$id('image-input').click();
     $id('color-palette').onclick=e=>{const sw=e.target.closest('[data-color]');if(!sw)return;const n=selectedNode();if(!n)return;mutate(()=>{n.color=sw.dataset.color;});};
     $id('image-list').onclick=e=>{const remove=e.target.closest('[data-remove-image]'),view=e.target.closest('[data-view-image]');if(remove){const n=selectedNode(),id=remove.dataset.removeImage;mutate(()=>{n.images=n.images.filter(im=>im.id!==id);});return;}if(view){const im=selectedNode()?.images.find(im=>im.id===view.dataset.viewImage);if(im)openImage(im.data);}};
