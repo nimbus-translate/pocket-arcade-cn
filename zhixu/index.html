@@ -15,7 +15,8 @@
   <link rel="stylesheet" href="motion.css" />
   <link rel="stylesheet" href="mobile-v3.css" />
   <link rel="stylesheet" href="article-v11.css" />
-  <title>枝序 1.1 · Mindspace</title>
+  <link rel="stylesheet" href="link-v12.css" />
+  <title>枝序 1.2 · Mindspace</title>
 </head>
 <body>
   <div id="app">
@@ -57,7 +58,7 @@
         <div class="canvas-header">
           <div class="eyebrow">A SPACE TO THINK</div>
           <div class="canvas-title-row"><h1 id="canvas-title">我的思维导图</h1><span class="small-accent-line"></span><span class="node-counter" id="node-count">07 个节点</span></div>
-          <p class="canvas-description">直接点选文字编辑 · 拖动节点顶部移动 · 正文可随时折叠。</p>
+          <p class="canvas-description">直接编辑图文 · 点击连线可断开、改接或插入节点。</p>
         </div>
         <div class="board" id="board" aria-label="思维导图画布">
           <div class="canvas-content" id="canvas-content">
@@ -104,6 +105,7 @@
     <div id="toast" role="status" aria-live="polite"></div>
   </div>
   <script src="motion.js" defer></script>
+  <script src="link-v12.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>
